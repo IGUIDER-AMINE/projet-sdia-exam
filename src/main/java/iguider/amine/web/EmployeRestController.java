@@ -17,9 +17,14 @@ public class EmployeRestController {
         return reservationService.getEmployes();
     }
 
-    @PostMapping("/customers")
+    @PostMapping("/employes")
     public Employe saveEmploye(@RequestBody Employe employe){
         return reservationService.saveEmploye(employe);
+    }
+
+    @DeleteMapping("/employes/{id}")
+    public void deleteEmploye(@PathVariable Long id){
+        reservationService.deleteEmploye(id);
     }
 
 }

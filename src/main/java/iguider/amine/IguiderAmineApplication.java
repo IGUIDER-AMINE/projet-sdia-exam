@@ -2,8 +2,10 @@ package iguider.amine;
 
 import iguider.amine.entities.Employe;
 import iguider.amine.entities.Equipement;
+import iguider.amine.entities.Reservations;
 import iguider.amine.entities.Salle;
 import iguider.amine.enums.EquipementType;
+import iguider.amine.enums.ReservationsStatut;
 import iguider.amine.enums.SalleType;
 import iguider.amine.services.ReservationService;
 import org.springframework.boot.CommandLineRunner;
@@ -11,7 +13,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -42,11 +47,23 @@ public class IguiderAmineApplication {
 			Stream.of("salle1","salle2","salle3").forEach(name->{
 				Salle salle=new Salle();
 				salle.setNom(name);
-				salle.setNumero(random.nextInt());
-				salle.setNbrPlaces(random.nextInt());
+				salle.setNumero(random.nextInt(100) + 1);
+				salle.setNbrPlaces(random.nextInt(100) + 1);
 				salle.setType(SalleType.COURS);
 				reservationService.saveSalle(salle);
 			});
+
+			reservationService.getEmployes().forEach(emp->{
+				Reservations reservations = new Reservations();
+				reservations.setDate(new Date());
+				reservations.setDuree(random.nextInt(100) + 1);
+				reservations.setDescription("desc" + random.nextInt(100) + 1);
+				reservations.setStatut(ReservationsStatut.EN_ATTENTE);
+				reservations.setEmploye(emp);
+				reservationService.saveReservations(reservations);
+
+			});
+
 		};
 	}
 }

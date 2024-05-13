@@ -1,5 +1,6 @@
 package iguider.amine.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import iguider.amine.enums.SalleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,6 @@ public class Salle {
     @Enumerated(EnumType.STRING)
     private SalleType type;
     @OneToMany(mappedBy = "salle",fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Reservations> reservations;
 }
